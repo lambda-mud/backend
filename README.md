@@ -129,7 +129,7 @@ Note that all the Pusher parts are stretch.
   * Add your pusher credentials and secret key
     ```
     SECRET_KEY='<your_secret_key>'
-    DATABASE_URL=postgres://localhost/<postgres-database-name>
+    DATABASE_URL=postgres://localhost/<your_postgres_database_name>
     DEBUG=True
     PUSHER_APP_ID=<your_app_id>
     PUSHER_KEY=<your_pusher_key>
