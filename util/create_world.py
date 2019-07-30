@@ -4,41 +4,31 @@ from adventure.models import Player, Room
 
 Room.objects.all().delete()
 
-r_outside = Room(title="Outside Cave Entrance",
-              description="North of you, the cave mount beckons")
+r_ca = Room(title="California",
+               description="Dream Big, Eureka!, The Golden State")
 
-r_foyer = Room(title="Foyer", description="""Dim light filters in from the south. Dusty
-passages run north and east.""")
+r_nv = Room(title="Nevada", description="""A World Within. A State Apart; Battle Born; The Silver State; Home Means Nevada""")
 
-r_overlook = Room(title="Grand Overlook", description="""A steep cliff appears before you, falling
-into the darkness. Ahead to the north, a light flickers in
-the distance, but there is no way across the chasm.""")
+r_or = Room(title="Oregon", description="""We Like It Here. You Might Too; We Love Dreamers; Things Look Different Here, Pacific Wonderland""")
 
-r_narrow = Room(title="Narrow Passage", description="""The narrow passage bends here from west
-to north. The smell of gold permeates the air.""")
+r_wa = Room(title="Washington", description="""Washington: The State, SayWA!, Experience Washington, The Evergreen State""")
 
-r_treasure = Room(title="Treasure Chamber", description="""You've found the long-lost treasure
-chamber! Sadly, it has already been completely emptied by
-earlier adventurers. The only exit is to the south.""")
-
-r_outside.save()
-r_foyer.save()
-r_overlook.save()
-r_narrow.save()
-r_treasure.save()
+r_ca.save()
+r_nv.save()
+r_or.save()
+r_wa.save()
 
 # Link rooms together
-r_outside.connectRooms(r_foyer, "n")
-r_foyer.connectRooms(r_outside, "s")
+r_ca.connectRooms(r_nv, "e")
+r_ca.connectRooms(r_or, "n")
 
-r_foyer.connectRooms(r_overlook, "n")
-r_overlook.connectRooms(r_foyer, "s")
+r_nv.connectRooms(r_ca, "w")
+r_nv.connectRooms(r_or, "n")
 
-r_foyer.connectRooms(r_narrow, "e")
-r_narrow.connectRooms(r_foyer, "w")
+r_or.connectRooms(r_wa, "n")
+r_or.connectRooms(r_ca, "s")
 
-r_narrow.connectRooms(r_treasure, "n")
-r_treasure.connectRooms(r_narrow, "s")
+r_wa.connectRooms(r_or, "s")
 
 players=Player.objects.all()
 for p in players:
