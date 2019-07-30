@@ -121,7 +121,7 @@ Note that all the Pusher parts are stretch.
 ### Set up your local server
 * Set up your virtual environment
   * `pipenv --three`
-  * `pipenv install`
+  * `pipenv install --sequential`
   * `pipenv shell`
 
 * Add your secret credentials
