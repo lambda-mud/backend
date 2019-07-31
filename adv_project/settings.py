@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/2.1/ref/settings/
 """
 
 import os
+import sys
 from decouple import config
 import dj_database_url
 import sys
@@ -152,5 +153,10 @@ STATIC_URL = '/static/'
 
 import django_heroku
 django_heroku.settings(locals())
+<<<<<<< HEAD
 if (sys.platform == "darwin"):
      del DATABASES['default']['OPTIONS']['sslmode']
+=======
+
+if (sys.platform == "darwin"): del DATABASES['default']['OPTIONS']['sslmode']
+>>>>>>> master
