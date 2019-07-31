@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 from .models import *
 from rest_framework.decorators import api_view
 import json
-from .serializers import RoomSerializer
 
 # instantiate pusher
 # pusher = Pusher(app_id=config('PUSHER_APP_ID'), key=config('PUSHER_KEY'), secret=config('PUSHER_SECRET'), cluster=config('PUSHER_CLUSTER'))
@@ -72,5 +71,13 @@ def say(request):
 @api_view(["GET"])
 def rooms(request):
     rooms = Room.objects.all()
-    serializer = RoomSerializer(rooms, many=True)
-    return JsonResponse({'rooms': serializer.data})
+    roomsArray = []
+    for i in range(len(rooms)):
+        roomsArray.append({'id':rooms[i].id, 
+        'title':rooms[i].title, 
+        'description':rooms[i].description, 
+        'n_to':rooms[i].n_to, 
+        's_to':rooms[i].s_to, 
+        'e_to':rooms[i].e_to, 
+        'w_to':rooms[i].w_to})
+    return JsonResponse({'rooms': roomsArray}, safe=True)
