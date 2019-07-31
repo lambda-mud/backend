@@ -10,22 +10,16 @@ roomsArray = [
     {'title': 'Washington', 'description': 'Washington: The State, SayWA!, Experience Washington, The Evergreen State'},
 ]
 
+connectedCitiesIndex = [[0, 1, "e"], [0, 2, "n"], [1, 0, "w"], [1, 2, "n"], [2, 3, "n"], [2, 0, "s"], [3, 2, "s"]]
+
 createdRooms = []
 
 for i in range(len(roomsArray)):
-    createdRooms.append(Room(title=roomsArray[i]['title'], description=roomsArray[i]['description']))
-    createdRooms[i].save()
+  createdRooms.append(Room(title=roomsArray[i]['title'], description=roomsArray[i]['description']))
+  createdRooms[i].save()
 
-
-# Link rooms together
-createdRooms[0].connectRooms(createdRooms[1], "e")
-createdRooms[0].connectRooms(createdRooms[2], "n")
-createdRooms[1].connectRooms(createdRooms[0], "w")
-createdRooms[1].connectRooms(createdRooms[2], "n")
-createdRooms[2].connectRooms(createdRooms[3], "n")
-createdRooms[2].connectRooms(createdRooms[0], "s")
-createdRooms[3].connectRooms(createdRooms[2], "s")
-
+for i in range(len(connectedCitiesIndex)):
+  createdRooms[connectedCitiesIndex[i][0]].connectRooms(createdRooms[connectedCitiesIndex[i][1]], connectedCitiesIndex[i][2])
 
 players=Player.objects.all()
 for p in players:
