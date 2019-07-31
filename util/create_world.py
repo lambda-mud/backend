@@ -1,34 +1,31 @@
 from django.contrib.auth.models import User
 from adventure.models import Player, Room
 
-
 Room.objects.all().delete()
 
-r_ca = Room(title="California",
-               description="Dream Big, Eureka!, The Golden State")
+roomsArray = [
+    {'title': 'California', 'description': 'Dream Big, Eureka!, The Golden State'}, 
+    {'title': 'Nevada', 'description': 'A World Within. A State Apart; Battle Born; The Silver State; Home Means Nevada'}, 
+    {'title': 'Oregon', 'description': 'We Like It Here. You Might Too; We Love Dreamers; Things Look Different Here, Pacific Wonderland'}, 
+    {'title': 'Washington', 'description': 'Washington: The State, SayWA!, Experience Washington, The Evergreen State'},
+]
 
-r_nv = Room(title="Nevada", description="""A World Within. A State Apart; Battle Born; The Silver State; Home Means Nevada""")
+createdRooms = []
 
-r_or = Room(title="Oregon", description="""We Like It Here. You Might Too; We Love Dreamers; Things Look Different Here, Pacific Wonderland""")
+for i in range(len(roomsArray)):
+    createdRooms.append(Room(title=roomsArray[i]['title'], description=roomsArray[i]['description']))
+    createdRooms[i].save()
 
-r_wa = Room(title="Washington", description="""Washington: The State, SayWA!, Experience Washington, The Evergreen State""")
-
-r_ca.save()
-r_nv.save()
-r_or.save()
-r_wa.save()
 
 # Link rooms together
-r_ca.connectRooms(r_nv, "e")
-r_ca.connectRooms(r_or, "n")
+createdRooms[0].connectRooms(createdRooms[1], "e")
+createdRooms[0].connectRooms(createdRooms[2], "n")
+createdRooms[1].connectRooms(createdRooms[0], "w")
+createdRooms[1].connectRooms(createdRooms[2], "n")
+createdRooms[2].connectRooms(createdRooms[3], "n")
+createdRooms[2].connectRooms(createdRooms[0], "s")
+createdRooms[3].connectRooms(createdRooms[2], "s")
 
-r_nv.connectRooms(r_ca, "w")
-r_nv.connectRooms(r_or, "n")
-
-r_or.connectRooms(r_wa, "n")
-r_or.connectRooms(r_ca, "s")
-
-r_wa.connectRooms(r_or, "s")
 
 players=Player.objects.all()
 for p in players:
