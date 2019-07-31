@@ -23,6 +23,6 @@ for i in range(len(connectedCitiesIndex)):
 
 players=Player.objects.all()
 for p in players:
-  p.currentRoom=r_outside.id
+  p.currentRoom = createdRooms[0].id
   p.save()
 
