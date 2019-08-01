@@ -39,6 +39,8 @@ createdRooms = []
 
 for i in range(len(roomsArray)):
   createdRooms.append(Room(title=roomsArray[i]['title'], description=roomsArray[i]['description']))
+  if i % 3 == 0:
+    createdRooms[i].can_make_money = True
   createdRooms[i].save()
 
 for i in range(len(connectedCitiesIndex)):
