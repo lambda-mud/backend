@@ -82,3 +82,12 @@ def rooms(request):
         'e_to':rooms[i].e_to, 
         'w_to':rooms[i].w_to})
     return JsonResponse({'rooms': roomsArray}, safe=True)
+
+@csrf_exempt
+@api_view(["PUT"])
+def add_money(request):
+    amountOfMoney = json.loads(request.body)['money']
+    player = request.user.player
+    player.cash = player.cash + amountOfMoney
+    player.save()
+    return JsonResponse({'id':player.id, 'name':player.user.username, 'cash':player.cash, 'error_msg':""}, safe=True)
