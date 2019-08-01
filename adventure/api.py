@@ -76,7 +76,7 @@ def move(request):
         return JsonResponse({'name': player.user.username, 
         'title': room.title, 
         'description': room.description, 
-        'can_make_money': nextRoom.can_make_money,
+        'can_make_money': room.can_make_money,
         'cash': player.cash, 
         'players': players, 
         'error_msg': "You cannot move that way."}, safe=True)
@@ -112,7 +112,7 @@ def add_money(request):
     player = request.user.player
     player.cash = player.cash + amountOfMoney
     player.save()
-    return JsonResponse({'id':player.id, 
-    'name':player.user.username, 
-    'cash':player.cash, 
-    'error_msg':""}, safe=True)
+    return JsonResponse({'id': player.id, 
+    'name': player.user.username, 
+    'cash': player.cash, 
+    'error_msg': ""}, safe=True)
