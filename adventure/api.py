@@ -73,12 +73,13 @@ def move(request):
         'error_msg': ""}, safe=True)
     else:
         players = room.playerNames(player_id)
-        return JsonResponse({'name':player.user.username, 
-        'title':room.title, 
-        'description':room.description, 
-        'cash':player.cash, 
-        'players':players, 
-        'error_msg':"You cannot move that way."}, safe=True)
+        return JsonResponse({'name': player.user.username, 
+        'title': room.title, 
+        'description': room.description, 
+        'can_make_money': nextRoom.can_make_money,
+        'cash': player.cash, 
+        'players': players, 
+        'error_msg': "You cannot move that way."}, safe=True)
 
 
 @csrf_exempt
@@ -94,13 +95,14 @@ def rooms(request):
     rooms = Room.objects.all()
     roomsArray = []
     for i in range(len(rooms)):
-        roomsArray.append({'id':rooms[i].id, 
-        'title':rooms[i].title, 
-        'description':rooms[i].description, 
-        'n_to':rooms[i].n_to, 
-        's_to':rooms[i].s_to, 
-        'e_to':rooms[i].e_to, 
-        'w_to':rooms[i].w_to})
+        roomsArray.append({'id': rooms[i].id, 
+        'title': rooms[i].title, 
+        'description': rooms[i].description, 
+        'can_make_money': rooms[i].can_make_money,
+        'n_to': rooms[i].n_to, 
+        's_to': rooms[i].s_to, 
+        'e_to': rooms[i].e_to, 
+        'w_to': rooms[i].w_to})
     return JsonResponse({'rooms': roomsArray}, safe=True)
 
 @csrf_exempt
