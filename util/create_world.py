@@ -4,7 +4,6 @@ from adventure.models import Player, Room
 Room.objects.all().delete()
 
 roomsArray = [
-    
     {'title': 'Seattle', 'description': 'The Emerald City.'},
     {'title': 'Spokane', 'description': 'Creative by Nature'},
     {'title': 'Portland', 'description': 'The City That Works'},
@@ -21,7 +20,6 @@ roomsArray = [
     {'title': 'Cheyenne', 'description': 'Magic City of the Plains'},
     {'title': 'Denver', 'description': 'Mile High City'},
     {'title': 'Albuquerque', 'description': 'The Duke City.  The towels are oh so fluffy.'},
-    # Good to here 15
     {'title': 'Bismarck', 'description': 'The Skyscraper on the Prairie'},
     {'title': 'Fargo', 'description': 'Gateway to the West'},
     {'title': 'Pierre', 'description': 'There is nothing interesting about this city.'},
@@ -50,4 +48,3 @@ players=Player.objects.all()
 for p in players:
   p.currentRoom = createdRooms[0].id
   p.save()
-
