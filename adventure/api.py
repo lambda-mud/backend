@@ -20,7 +20,7 @@ def initialize(request):
     uuid = player.uuid
     room = player.room()
     players = room.playerNames(player_id)
-    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players}, safe=True)
+    return JsonResponse({'uuid': uuid, 'name':player.user.username, 'title':room.title, 'description':room.description, 'cash':player.cash, 'players':players}, safe=True)
 
 
 # @csrf_exempt
@@ -46,6 +46,10 @@ def move(request):
     if nextRoomID is not None and nextRoomID > 0:
         nextRoom = Room.objects.get(id=nextRoomID)
         player.currentRoom=nextRoomID
+        if player.cash >= 200:
+            player.cash = player.cash - 200
+        else:
+            player.cash = 0
         player.save()
         players = nextRoom.playerNames(player_id)
         currentPlayerUUIDs = room.playerUUIDs(player_id)
@@ -54,10 +58,10 @@ def move(request):
         #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has walked {dirs[direction]}.'})
         # for p_uuid in nextPlayerUUIDs:
         #     pusher.trigger(f'p-channel-{p_uuid}', u'broadcast', {'message':f'{player.user.username} has entered from the {reverse_dirs[direction]}.'})
-        return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'players':players, 'error_msg':""}, safe=True)
+        return JsonResponse({'name':player.user.username, 'title':nextRoom.title, 'description':nextRoom.description, 'cash':player.cash, 'players':players, 'error_msg':""}, safe=True)
     else:
         players = room.playerNames(player_id)
-        return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
+        return JsonResponse({'name':player.user.username, 'title':room.title, 'description':room.description, 'cash':player.cash, 'players':players, 'error_msg':"You cannot move that way."}, safe=True)
 
 
 @csrf_exempt
@@ -81,3 +85,12 @@ def rooms(request):
         'e_to':rooms[i].e_to, 
         'w_to':rooms[i].w_to})
     return JsonResponse({'rooms': roomsArray}, safe=True)
+
+@csrf_exempt
+@api_view(["PUT"])
+def add_money(request):
+    amountOfMoney = json.loads(request.body)['money']
+    player = request.user.player
+    player.cash = player.cash + amountOfMoney
+    player.save()
+    return JsonResponse({'id':player.id, 'name':player.user.username, 'cash':player.cash, 'error_msg':""}, safe=True)
