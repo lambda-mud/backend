@@ -52,10 +52,14 @@ def move(request):
     if nextRoomID is not None and nextRoomID > 0:
         nextRoom = Room.objects.get(id=nextRoomID)
         player.currentRoom=nextRoomID
-        if player.cash >= 200:
+        rooms = Room.objects.all()
+        if player.cash > 0:
+            print('\n', rooms[0], '\n')
             player.cash = player.cash - 200
-        else:
-            player.cash = 0
+        if player.cash <= 0:
+            print('\n', rooms, '\n')
+            player.cash = 800
+            player.currentRoom = rooms[0].id
         player.save()
         players = nextRoom.playerNames(player_id)
         currentPlayerUUIDs = room.playerUUIDs(player_id)
